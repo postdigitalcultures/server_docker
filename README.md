@@ -7,12 +7,19 @@ Simon Bowie (Open-Source Software Developer) - ad7588@coventry.ac.uk
 # Technical details
 
 Hostname: postdigitalcultures.org
+
 IPv4 address: 80.78.22.120
+
 Location:
+
 Operating system: Ubuntu 20.04
+
 Processors: 3 cores
+
 RAM: 4.5 GB
+
 Hard disk space: 45 GB
+
 Bandwidth: 4.5 TB
 
 # Docker
