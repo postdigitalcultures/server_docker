@@ -10,9 +10,11 @@ Hostname: postdigitalcultures.org
 
 IPv4 address: 80.78.22.120
 
+IPv6 address: 2a0a:3840:8078:22::504e:1678:1337
+
 Location:
 
-Operating system: Ubuntu 20.04
+Operating system: Ubuntu 22.04.1 LTS
 
 Processors: 3 cores
 
@@ -21,6 +23,12 @@ RAM: 4.5 GB
 Hard disk space: 45 GB
 
 Bandwidth: 4.5 TB
+
+# Email
+
+Email was set up on the server using Postfix and an SMTP relay at Sendinblue. This was set up following instructions at https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-postfix-as-a-send-only-smtp-server-on-ubuntu-20-04, https://www.linuxbabe.com/mail-server/setup-basic-postfix-mail-sever-ubuntu, and https://www.linuxbabe.com/mail-server/postfix-smtp-relay-ubuntu-sendinblue. 
+
+WordPress' email was configured using the Post SMTP Mailer plugin: https://wordpress.org/plugins/post-smtp/
 
 # Docker
 
