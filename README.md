@@ -90,3 +90,14 @@ To restrict what personal data we collect on users, ./nginx.conf zeroes the fina
 
 Further, a cron job on the root crontab ('sudo crontab -e') runs /home/cpc_admin/bin/anonymize-logs every week. This script anonymizes the IP addresses of users in log files older than 2 months. This is based on instructions and a script available at <https://www.supertechcrew.com/anonymizing-logs-nginx-apache/>
 
+### onion service containers
+
+The production Docker Compose configuration also provides an onion service version of the WordPress site. This uses torservers' Onionize container (https://github.com/torservers/onionize-docker) to automatically exposes other selected Docker containers as onion services. It uses a 'faraday' network to only expose services on that internal network outwards to the Tor network. A separate version of Nginx labelled onion-nginx exposes the website on that internal network.
+
+To output the onion address that has been assigned, run the command:
+
+docker exec onionize cat /var/lib/tor/onion_services/<ONIONSERVICE_NAME>/hostname
+
+(in our case): docker exec onionize cat /var/lib/tor/onion_services/onion-nginx/hostname
+
+WordPress dynamically rewrites permalinks using a function derived from https://blog.paranoidpenguin.net/2017/09/how-to-configure-wordpress-as-a-tor-hidden-service/. Every time the Tor Onionize container is restarted, you should run rewrite_onion_address.sh to update the onion address in WordPress to the latest address.
