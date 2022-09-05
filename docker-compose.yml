@@ -31,6 +31,7 @@ services:
       - ./wordpress:/var/www/html
     networks:
       - app-network
+      - faraday-network
 
   # Nginx webserver       
   webserver:
@@ -88,9 +89,38 @@ services:
     networks:
        - app-network
 
+  # experiments with Tor services in Docker based on https://github.com/torservers/onionize-docker
+  tor:
+    container_name: tor
+    image: torservers/onionize
+    restart: always
+    volumes:
+       - /var/run/docker.sock:/tmp/docker.sock:ro
+    networks:
+       - app-network
+       - faraday-network
+
+  onion-nginx:
+    container_name: onion-nginx
+    image: nginx:latest
+    volumes:
+       # WordPress
+       - ./wordpress:/var/www/html
+       - ./nginx-conf/onion:/etc/nginx/conf.d
+    environment:
+       - ONIONSERVICE_NAME=onion-nginx
+    depends_on:
+       - wordpress
+    networks:
+       - faraday-network
+
 volumes:
   mariadbdata:
 
 networks:
   app-network:
      driver: bridge
+  faraday-network:
+    driver: bridge
+    driver_opts:
+       enable_ip_masquerade: "false"
