@@ -96,8 +96,8 @@ The production Docker Compose configuration also provides an onion service versi
 
 To output the onion address that has been assigned, run the command:
 
-docker exec onionize cat /var/lib/tor/onion_services/<ONIONSERVICE_NAME>/hostname
+`docker exec tor cat /var/lib/tor/onion_services/<ONIONSERVICE_NAME>/hostname`
 
-(in our case): docker exec onionize cat /var/lib/tor/onion_services/onion-nginx/hostname
+(in our case): `docker exec tor cat /var/lib/tor/onion_services/onion-nginx/hostname`
 
 WordPress dynamically rewrites permalinks using a function derived from https://blog.paranoidpenguin.net/2017/09/how-to-configure-wordpress-as-a-tor-hidden-service/. Every time the Tor Onionize container is restarted, you should run rewrite_onion_address.sh to update the onion address in WordPress to the latest address.
