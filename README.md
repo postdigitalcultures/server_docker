@@ -30,6 +30,17 @@ Email was set up on the server using Postfix and an SMTP relay at Sendinblue. Th
 
 WordPress' email was configured using the Post SMTP Mailer plugin: https://wordpress.org/plugins/post-smtp/
 
+# SSL
+
+All websites on the *.postdigitalcultures.org domain are SSL secured. This was done by setting up a wildcard certificate for the postdigitalcultures.org domain name (https://medium.com/@utkarsh_verma/how-to-obtain-a-wildcard-ssl-certificate-from-lets-encrypt-and-setup-nginx-to-use-wildcard-cfb050c8b33f).
+
+Run this command to get a wildcard SSL certificate from Let's Encrypt:
+
+`sudo certbot --server https://acme-v02.api.letsencrypt.org/directory -d *.postdigitalcultures.org --manual --preferred-challenges dns-01 certonly`
+
+All SSL certificates are kept in the directory /etc/letsencrypt which is mirrored as a volume in the Nginx webserver Docker container.
+
+
 # Docker
 
 Docker is running containers on the server for all the services that the server runs: MariaDB, WordPress, Nginx, and GoAccess. This runs from /home/cpc_admin/docker with the containers specified in the docker-compose.yml file in that directory.
