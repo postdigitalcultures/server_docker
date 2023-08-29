@@ -1,4 +1,5 @@
 .env
+radicaloa
 wordpress
 goaccess/data/access.conf
 goaccess/GeoLite2-City.mmdb
