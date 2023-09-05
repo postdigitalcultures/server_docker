@@ -12,7 +12,7 @@ services:
     networks:
       - app-network
 
-  # WordPress postdigitalcultures.org
+  # WordPress Multisite
   wordpress:
     depends_on:
       - database
