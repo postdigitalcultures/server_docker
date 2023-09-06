@@ -5,6 +5,8 @@
 # @license: The MIT License <https://opensource.org/licenses/MIT>
 # @author: Simon Bowie <ad7588@coventry.ac.uk>
 # @purpose: Rewrites the onion addresses in our WordPress theme files to the correct onion address
+# @cron: Set to run on root crontab at 1200 every day from Monday through Friday inclusive
+# 00 12 * * 1-5 /home/cpc_admin/docker/rewrite_onion_address.sh
 
 # VARIABLES
 WORDPRESS_THEME_DIRECTORY='/home/cpc_admin/docker/wordpress/wp-content/themes/postdigital-cultures'
@@ -31,6 +33,5 @@ find ${WORDPRESS_THEME_DIRECTORY} \( -name "*.php" \) -exec sed -Ei "s,[a-zA-Z0-
 
 # replace the value on the wp_domain_mapping table with appropriate ONION_ADDRESS
 docker exec mariadb mysql -u $MARIADB_USER -p$MARIADB_PASSWORD -e "$SQL_QUERY"
-
 
 exit

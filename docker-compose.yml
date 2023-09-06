@@ -53,6 +53,7 @@ services:
       # websites
       - /home/cpc_admin/yurisearch/home:/var/yurisearch/
       - /home/kwalker/ai_site:/var/ai_site/
+      - /home/gezeonyeka/exhibition_site:/var/exhibition_site/
       # GoAccess
       - /home/cpc_admin/logs/wordpress:/var/log/nginx
       - ./goaccess/html:/srv/report
@@ -69,7 +70,7 @@ services:
     volumes:
       - /etc/letsencrypt:/etc/letsencrypt
       - ./wordpress:/var/www/html
-    command: certonly --webroot --webroot-path=/var/www/html --email ad7588@coventry.ac.uk --agree-tos --no-eff-email --force-renewal -d postdigitalcultures.org -d www.postdigitalcultures.org
+    command: certonly --webroot --webroot-path=/var/www/html --email ad7588@coventry.ac.uk --agree-tos --no-eff-email --force-renewal -d postdigitalcultures.org -d *.postdigitalcultures.org
 
   # GoAccess for web analytics
   # build and Nginx config from https://github.com/icamys/docker-goaccess-nginx
