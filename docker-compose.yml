@@ -53,7 +53,7 @@ services:
       # websites
       - /home/cpc_admin/yurisearch/home:/var/yurisearch/
       - /home/kwalker/ai_site:/var/ai_site/
-      - /home/gezeonyeka/exhibition_site:/var/exhibition_site/
+      - /home/gezeonyeka/networked_narratives:/var/networked_narratives/
       # GoAccess
       - /home/cpc_admin/logs/wordpress:/var/log/nginx
       - ./goaccess/html:/srv/report

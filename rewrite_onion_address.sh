@@ -31,7 +31,7 @@ eval "$(
 # production version for Linux
 find ${WORDPRESS_THEME_DIRECTORY} \( -name "*.php" \) -exec sed -Ei "s,[a-zA-Z0-9]+\.onion,${ONION_ADDRESS},gI" {} \;
 
-# replace the value on the wp_domain_mapping table with appropriate ONION_ADDRESS
+# replace the value in the WordPress wp_domain_mapping database table with appropriate ONION_ADDRESS
 docker exec mariadb mysql -u $MARIADB_USER -p$MARIADB_PASSWORD -e "$SQL_QUERY"
 
 exit
