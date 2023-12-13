@@ -16,7 +16,7 @@ SQL_QUERY='UPDATE wordpress.wp_domain_mapping SET domain="'$ONION_ADDRESS'" WHER
 
 # get secure variables from .env file
 eval "$(
-  cat .env | awk '!/^\s*#/' | awk '!/^\s*$/' | while IFS='' read -r line; do
+  cat /home/cpc_admin/docker/.env | awk '!/^\s*#/' | awk '!/^\s*$/' | while IFS='' read -r line; do
     key=$(echo "$line" | cut -d '=' -f 1)
     value=$(echo "$line" | cut -d '=' -f 2-)
     echo "export $key=\"$value\""
