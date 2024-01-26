@@ -36,7 +36,7 @@ All websites on the *.postdigitalcultures.org domain are SSL secured. This was d
 
 Run this command to get a wildcard SSL certificate from Let's Encrypt:
 
-`sudo certbot --server https://acme-v02.api.letsencrypt.org/directory -d *.postdigitalcultures.org --manual --preferred-challenges dns-01 certonly`
+`sudo certbot --server https://acme-v02.api.letsencrypt.org/directory -d *.postdigitalcultures.org,postdigitalcultures.org --manual --preferred-challenges dns-01 certonly`
 
 All SSL certificates are kept in the directory /etc/letsencrypt which is mirrored as a volume in the Nginx webserver Docker container.
 
