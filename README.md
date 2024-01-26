@@ -112,3 +112,20 @@ To output the onion address that has been assigned, run the command:
 (in our case): `docker exec tor cat /var/lib/tor/onion_services/onion-nginx/hostname`
 
 WordPress dynamically rewrites permalinks using a function derived from https://blog.paranoidpenguin.net/2017/09/how-to-configure-wordpress-as-a-tor-hidden-service/. Every time the Tor Onionize container is restarted, you should run rewrite_onion_address.sh to update the onion address in WordPress to the latest address.
+
+### WordPress
+
+Most sites on the server (postdigitalcultures.org, radicaloa.postdigitalcultures.org) are running on a WordPress Multisite installation in Docker Compose.
+
+# Other sites
+
+The postdigitalcultures.org server also serves the following sites for staff and postgraduate research. All these sites are run through the NGINX running on Docker Compose with configuration files for each subdomain in /home/cpc_admin/docker/nginx-conf.
+
+- yurisearch.postdigitalcultures.org. This site was moved over from yurisearch.coventry.ac.uk and is the research output of former PhD student Jurij Smrke (uree@samponuniverzal.xyz). It lives in /home/cpc_admin/yurisearch and consists of two Docker Compose installations brought up in ./linqr and ./radovan. Linqr and Radovan are both available on Juirj's GitHub at https://github.com/uree/linqr and https://github.com/uree/radovan. This site is also backed up on GitHub at https://github.com/postdigitalcultures/yurisearch.
+
+- ai.postdigitalcultures.org. This site was set up by Kevin Walker for his research into AI in 2023. It is a HTML and JavaScript site served from /home/kwalker/ai_site. This folder is set up as an SFTP folder and Kevin manages all the files in there himself. 
+
+- networkednarratives.postdigitalcultures.org. This site was set up by Godswill Ezeonyeka (ezeonyekag@uni.coventry.ac.uk) and Abhiram Thiruthummal (thiruthuma@uni.coventry.ac.uk) as an interactive introduction to the story of the #EndSARS protests in Nigeria. It is a HTML and JavaScript site served from /home/gezeonyeka/networked_narratives.
+
+- ghost.postdigitalcultures.org. This site was a test of Ghost, the open source alternative to Substack, and was set up by Simon Bowie. It's a Docker Compose application running from /home/cpc_admin/ghost. 
+

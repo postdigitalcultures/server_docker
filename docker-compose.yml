@@ -54,7 +54,8 @@ services:
       - /home/cpc_admin/yurisearch/home:/var/yurisearch/
       - /home/kwalker/ai_site:/var/ai_site/
       - /home/gezeonyeka/networked_narratives:/var/networked_narratives/
-      # GoAccess
+      - /home/cpc_admin/thepoliticalnatureofthebook:/var/thepoliticalnatureofthebook/
+        # GoAccess
       - /home/cpc_admin/logs/wordpress:/var/log/nginx
       - ./goaccess/html:/srv/report
       - ./goaccess/data/access.conf:/etc/nginx/access.conf
