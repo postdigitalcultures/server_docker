@@ -1,10 +1,14 @@
 version: '3'
 
 services:
-  # MariaDB database
-  database:
+  # MariaDB database for WordPress Multisite
+  # postdigitalcultures.org
+  # radicaloa.postdigitalcultures.org
+  # radicaloaconference.postdigitalcultures.org
+  # postpublishing.postdigitalcultures.org
+  mariadb0:
     image: mariadb
-    container_name: mariadb
+    container_name: mariadb0
     restart: unless-stopped
     env_file: .env
     volumes:
@@ -13,15 +17,19 @@ services:
       - app-network
 
   # WordPress Multisite
-  wordpress:
+  # postdigitalcultures.org
+  # radicaloa.postdigitalcultures.org
+  # radicaloaconference.postdigitalcultures.org
+  # postpublishing.postdigitalcultures.org
+  wordpress0:
     depends_on:
-      - database
+      - mariadb0
     image: wordpress:php8.0-fpm
-    container_name: wordpress
+    container_name: wordpress0
     restart: unless-stopped
     env_file: .env
     environment:
-      - WORDPRESS_DB_HOST=mariadb:3306
+      - WORDPRESS_DB_HOST=mariadb0:3306
       - WORDPRESS_DB_USER=$MARIADB_USER
       - WORDPRESS_DB_PASSWORD=$MARIADB_PASSWORD
       - WORDPRESS_DB_NAME=wordpress
@@ -32,10 +40,74 @@ services:
       - app-network
       - faraday-network
 
-  # Nginx webserver       
+  # MariaDB database for WordPress w/ PHP7
+  # disruptingthehumanities.postdigitalcultures.org
+  mariadb1:
+    image: mariadb
+    container_name: mariadb1
+    restart: unless-stopped
+    env_file: .env
+    volumes:
+      - mariadb1_data:/var/lib/mysql
+    networks:
+      - app-network
+
+  # WordPress w/ PHP7
+  # disruptingthehumanities.postdigitalcultures.org
+  wordpress1:
+    depends_on:
+      - mariadb1
+    image: wordpress:php7.4-fpm
+    container_name: wordpress1
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      - WORDPRESS_DB_HOST=mariadb1:3306
+      - WORDPRESS_DB_USER=$MARIADB_USER
+      - WORDPRESS_DB_PASSWORD=$MARIADB_PASSWORD
+      - WORDPRESS_DB_NAME=wordpress
+    volumes:
+      - ./wordpress1:/var/www/html
+    networks:
+      - app-network
+
+  # MariaDB database for WordPress w/ PHP7
+  # disruptedjournal.postdigitalcultures.org
+  mariadb2:
+    image: mariadb
+    container_name: mariadb2
+    restart: unless-stopped
+    env_file: .env
+    volumes:
+      - mariadb2_data:/var/lib/mysql
+    networks:
+      - app-network
+
+  # WordPress w/ PHP7
+  # disruptedjournal.postdigitalcultures.org
+  wordpress2:
+    depends_on:
+      - mariadb2
+    image: wordpress:php7.4-fpm
+    container_name: wordpress2
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      - WORDPRESS_DB_HOST=mariadb2:3306
+      - WORDPRESS_DB_USER=$MARIADB_USER
+      - WORDPRESS_DB_PASSWORD=$MARIADB_PASSWORD
+      - WORDPRESS_DB_NAME=wordpress
+    volumes:
+      - ./wordpress2:/var/www/html
+    networks:
+      - app-network
+
+  # Nginx webserver
   webserver:
     depends_on:
-      - wordpress
+      - wordpress0
+      - wordpress1
+      - wordpress2
       - goaccess
     image: nginx:latest
     container_name: nginx
@@ -46,6 +118,8 @@ services:
     volumes:
       # WordPress
       - ./wordpress:/var/www/html
+      - ./wordpress1:/var/www/wordpress1
+      - ./wordpress2:/var/www/wordpress2
       # Nginx configuration files and SSL certs/keys
       - ./nginx.conf:/etc/nginx/nginx.conf
       - ./nginx-conf:/etc/nginx/conf.d
@@ -114,12 +188,14 @@ services:
     environment:
        - ONIONSERVICE_NAME=onion-nginx
     depends_on:
-       - wordpress
+       - wordpress0
     networks:
        - faraday-network
 
 volumes:
   mariadbdata:
+  mariadb1_data:
+  mariadb2_data:
 
 networks:
   app-network:

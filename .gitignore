@@ -1,6 +1,7 @@
 .env
-radicaloa
 wordpress
+wordpress1
+wordpress2
 goaccess/data/access.conf
 goaccess/GeoLite2-City.mmdb
 goaccess/html/index.html
