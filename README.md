@@ -34,20 +34,23 @@ WordPress' email was configured using the Post SMTP Mailer plugin: https://wordp
 
 All websites on the *.postdigitalcultures.org domain are SSL secured. This was done by setting up a wildcard certificate for the postdigitalcultures.org domain name (https://medium.com/@utkarsh_verma/how-to-obtain-a-wildcard-ssl-certificate-from-lets-encrypt-and-setup-nginx-to-use-wildcard-cfb050c8b33f).
 
-Run this command to get a wildcard SSL certificate from Let's Encrypt:
-
-`sudo certbot --server https://acme-v02.api.letsencrypt.org/directory -d *.postdigitalcultures.org,postdigitalcultures.org --manual --preferred-challenges dns-01 certonly`
-
-All SSL certificates are kept in the directory /etc/letsencrypt which is mirrored as a volume in the Nginx webserver Docker container.
-
 ## Lego
 
 As of 2024-08-29, all SSL certificates are managed using [Lego](https://go-acme.github.io/lego/). This runs Let's Encrypt requests and automates the process of adding DNS records for domain challenges. 
 
 This runs using:
+
 `docker-compose -f /home/cpc_admin/docker/docker-compose-lego.yml up lego-renew`
 
-All SSL certificates are now kept in the directory /home/cpc_admin/docker/cert_store which is mirrored as a volume in the Nginx webserver Docker container.
+All SSL certificates are now kept in the directory /etc/letsencrypt/lego_cert_store which is mirrored as a volume in the Nginx webserver Docker container.
+
+## deprecated SSL process
+
+Run this command to get a wildcard SSL certificate from Let's Encrypt:
+
+`sudo certbot --server https://acme-v02.api.letsencrypt.org/directory -d *.postdigitalcultures.org,postdigitalcultures.org --manual --preferred-challenges dns-01 certonly`
+
+All SSL certificates are kept in the directory /etc/letsencrypt which is mirrored as a volume in the Nginx webserver Docker container.
 
 # Docker
 
