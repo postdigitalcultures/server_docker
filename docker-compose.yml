@@ -102,12 +102,44 @@ services:
     networks:
       - app-network
 
+  # MariaDB database for WordPress
+  # criticalcurating.postdigitalcultures.org
+  mariadb3:
+    image: mariadb
+    container_name: mariadb3
+    restart: unless-stopped
+    env_file: .env
+    volumes:
+      - mariadb3_data:/var/lib/mysql
+    networks:
+      - app-network
+
+  # WordPress
+  # criticalcurating.postdigitalcultures.org
+  wordpress3:
+    depends_on:
+      - mariadb3
+    image: wordpress:php8.0-fpm
+    container_name: wordpress3
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      - WORDPRESS_DB_HOST=mariadb3:3306
+      - WORDPRESS_DB_USER=$MARIADB_USER
+      - WORDPRESS_DB_PASSWORD=$MARIADB_PASSWORD
+      - WORDPRESS_DB_NAME=wordpress
+    volumes:
+      - /home/kwalker/curatorial:/var/www/html
+    networks:
+      - app-network
+
   # Nginx webserver
   webserver:
     depends_on:
       - wordpress0
       - wordpress1
       - wordpress2
+      - wordpress3
       - goaccess
     image: nginx:latest
     container_name: nginx
@@ -120,10 +152,13 @@ services:
       - ./wordpress:/var/www/html
       - ./wordpress1:/var/www/wordpress1
       - ./wordpress2:/var/www/wordpress2
-      # Nginx configuration files and SSL certs/keys
+      - /home/kwalker/curatorial:/var/www/wordpress3
+      # Nginx configuration files
       - ./nginx.conf:/etc/nginx/nginx.conf
       - ./nginx-conf:/etc/nginx/conf.d
+      # SSL certs/keys
       - /etc/letsencrypt:/etc/letsencrypt
+      - ./cert_store:/certs
       # websites
       - /home/cpc_admin/yurisearch/home:/var/yurisearch/
       - /home/kwalker/ai_site:/var/ai_site/
@@ -135,17 +170,18 @@ services:
       - ./goaccess/data/access.conf:/etc/nginx/access.conf
     networks:
       - app-network
+      - docker_workadventure-network
 
   # Certbot to renew SSL certificates
-  certbot:
-    depends_on:
-      - webserver
-    image: certbot/certbot
-    container_name: certbot
-    volumes:
-      - /etc/letsencrypt:/etc/letsencrypt
-      - ./wordpress:/var/www/html
-    command: certonly --webroot --webroot-path=/var/www/html --email ad7588@coventry.ac.uk --agree-tos --no-eff-email --force-renewal -d postdigitalcultures.org -d *.postdigitalcultures.org
+  #certbot:
+  #  depends_on:
+  #    - webserver
+  #  image: certbot/certbot
+  #  container_name: certbot
+  #  volumes:
+  #    - /etc/letsencrypt:/etc/letsencrypt
+  #    - ./wordpress:/var/www/html
+  #  command: certonly --webroot --webroot-path=/var/www/html --email ad7588@coventry.ac.uk --agree-tos --no-eff-email --force-renewal -d postdigitalcultures.org -d *.postdigitalcultures.org
 
   # GoAccess for web analytics
   # build and Nginx config from https://github.com/icamys/docker-goaccess-nginx
@@ -196,6 +232,7 @@ volumes:
   mariadbdata:
   mariadb1_data:
   mariadb2_data:
+  mariadb3_data:
 
 networks:
   app-network:
@@ -204,3 +241,5 @@ networks:
     driver: bridge
     driver_opts:
        enable_ip_masquerade: "false"
+  docker_workadventure-network:
+    external: true
