@@ -158,7 +158,7 @@ services:
       - ./nginx-conf:/etc/nginx/conf.d
       # SSL certs/keys
       - /etc/letsencrypt:/etc/letsencrypt
-      - ./cert_store:/certs
+      - /etc/letsencrypt/lego_cert_store:/certs
       # websites
       - /home/cpc_admin/yurisearch/home:/var/yurisearch/
       - /home/kwalker/ai_site:/var/ai_site/

@@ -5,7 +5,7 @@ services:
     environment:
       - NJALLA_TOKEN=$NJALLA_TOKEN
     volumes:
-      - ./cert_store:/certs
+      - /etc/letsencrypt/lego_cert_store:/certs
     command: "--accept-tos
              --email=\"ad7588@coventry.ac.uk\"
              --dns=\"njalla\"
@@ -20,7 +20,7 @@ services:
     environment:
       - NJALLA_TOKEN=$NJALLA_TOKEN
     volumes:
-      - ./cert_store:/certs
+      - /etc/letsencrypt/lego_cert_store:/certs
     command: "--email=\"ad7588@coventry.ac.uk\"
              --dns=\"njalla\"
              --path=\"/certs\"
