@@ -40,6 +40,14 @@ Run this command to get a wildcard SSL certificate from Let's Encrypt:
 
 All SSL certificates are kept in the directory /etc/letsencrypt which is mirrored as a volume in the Nginx webserver Docker container.
 
+## Lego
+
+As of 2024-08-29, all SSL certificates are managed using [Lego](https://go-acme.github.io/lego/). This runs Let's Encrypt requests and automates the process of adding DNS records for domain challenges. 
+
+This runs using:
+`docker-compose -f /home/cpc_admin/docker/docker-compose-lego.yml up lego-renew`
+
+All SSL certificates are now kept in the directory /home/cpc_admin/docker/cert_store which is mirrored as a volume in the Nginx webserver Docker container.
 
 # Docker
 
