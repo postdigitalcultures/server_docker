@@ -36,13 +36,17 @@ All websites on the *.postdigitalcultures.org domain are SSL secured. This was d
 
 ## Lego
 
-As of 2024-08-29, all SSL certificates are managed using [Lego](https://go-acme.github.io/lego/). This runs Let's Encrypt requests and automates the process of adding DNS records for domain challenges. 
+As of 2024-08-29, the *.postdigitalcultures.org SSL certificate is managed using [Lego](https://go-acme.github.io/lego/). This runs Let's Encrypt requests and automates the process of adding DNS records for domain challenges. 
 
 This runs using:
 
 `docker-compose -f /home/cpc_admin/docker/docker-compose-lego.yml up lego-renew`
 
-All SSL certificates are now kept in the directory /etc/letsencrypt/lego_cert_store which is mirrored as a volume in the Nginx webserver Docker container.
+This SSL certificate is now kept in the directory /etc/letsencrypt/lego_cert_store which is mirrored as a volume in the Nginx webserver Docker container.
+
+There's another SSL certificate for a different domain that is set up to auto-renew through Certbot and WordPress ACME challenges but in the event that it does not renew, run:
+
+`certbot certonly --webroot -w /home/kwalker/curatorial -d curatorial-research.com -d www.curatorial-research.com`
 
 ## deprecated SSL process
 
