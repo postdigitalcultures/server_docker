@@ -14,7 +14,7 @@ IPv6 address: 2a0a:3840:8078:22::504e:1678:1337
 
 Location:
 
-Operating system: Ubuntu 22.04.1 LTS
+Operating system: Ubuntu 24.04.1 LTS
 
 Processors: 3 cores
 
