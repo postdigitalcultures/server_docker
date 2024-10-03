@@ -153,6 +153,7 @@ services:
       - ./wordpress1:/var/www/wordpress1
       - ./wordpress2:/var/www/wordpress2
       - /home/kwalker/curatorial:/var/www/wordpress3
+      - /home/cpc_admin/wordpress4/wordpress-content:/var/www/wordpress4
       # Nginx configuration files
       - ./nginx.conf:/etc/nginx/nginx.conf
       - ./nginx-conf:/etc/nginx/conf.d
