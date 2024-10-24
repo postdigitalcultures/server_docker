@@ -1,0 +1,35 @@
+services:
+  mediawiki:
+    container_name: mediawiki
+    build: .
+    restart: unless-stopped
+    links:
+      - mediawiki_db
+    volumes:
+      - images:/var/www/html/images
+      - ./LocalSettings.php:/var/www/html/LocalSettings.php
+      - ./uploads.ini:/usr/local/etc/php/conf.d/uploads.ini:ro
+    networks:
+      - docker_app-network
+
+  mediawiki_db:
+    container_name: mediawiki_db
+    image: mariadb
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: mediawiki
+      MYSQL_USER: $DB_USER
+      MYSQL_PASSWORD: $DB_PASSWORD
+      MYSQL_ROOT_PASSWORD: $DB_ROOT_PASSWORD
+    volumes:
+      - mediawiki_db:/var/lib/mysql
+    networks:
+      - docker_app-network
+
+volumes:
+  mediawiki_db:
+  images:
+
+networks:
+  docker_app-network:
+    external: true

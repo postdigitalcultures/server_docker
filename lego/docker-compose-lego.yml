@@ -1,0 +1,29 @@
+services:
+  lego-run:
+    container_name: lego-run
+    image: goacme/lego
+    environment:
+      - NJALLA_TOKEN=$NJALLA_TOKEN
+    volumes:
+      - /etc/letsencrypt/lego_cert_store:/certs
+    command: "--accept-tos
+             --email=\"ad7588@coventry.ac.uk\"
+             --dns=\"njalla\"
+             --path=\"/certs\"
+             --domains=\"postdigitalcultures.org\"
+             --domains=\"*.postdigitalcultures.org\"
+             run"
+
+  lego-renew:
+    container_name: lego-renew
+    image: goacme/lego
+    environment:
+      - NJALLA_TOKEN=$NJALLA_TOKEN
+    volumes:
+      - /etc/letsencrypt/lego_cert_store:/certs
+    command: "--email=\"ad7588@coventry.ac.uk\"
+             --dns=\"njalla\"
+             --path=\"/certs\"
+             --domains=\"postdigitalcultures.org\"
+             --domains=\"*.postdigitalcultures.org\"
+             renew --days 60"

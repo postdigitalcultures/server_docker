@@ -1,0 +1,32 @@
+services:
+  # experiments with Tor services in Docker based on https://github.com/torservers/onionize-docker
+  tor:
+    container_name: tor
+    image: torservers/onionize
+    restart: unless-stopped
+    volumes:
+       - /var/run/docker.sock:/tmp/docker.sock:ro
+    networks:
+       - docker_app-network
+       - faraday-network
+
+  onion-nginx:
+    container_name: onion-nginx
+    image: nginx:latest
+    restart: unless-stopped
+    volumes:
+       # WordPress
+       - /home/cpc_admin/docker/wordpress:/var/www/html
+       - ./nginx-conf:/etc/nginx/conf.d
+    environment:
+       - ONIONSERVICE_NAME=onion-nginx
+    networks:
+       - faraday-network
+
+networks:
+  docker_app-network:
+    external: true
+  faraday-network:
+    driver: bridge
+    driver_opts:
+       enable_ip_masquerade: "false"

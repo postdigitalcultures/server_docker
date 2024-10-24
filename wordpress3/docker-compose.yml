@@ -1,0 +1,40 @@
+services:
+  # MariaDB database for WordPress
+  # curatorial-research.com
+  mariadb3:
+    image: mariadb
+    container_name: mariadb3
+    restart: unless-stopped
+    env_file: .env
+    volumes:
+      - docker_mariadb3_data:/var/lib/mysql
+    networks:
+      - docker_app-network
+
+  # WordPress
+  # cuatorial-research.com
+  wordpress3:
+    depends_on:
+      - mariadb3
+    image: wordpress:php8.0-fpm
+    container_name: wordpress3
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      - WORDPRESS_DB_HOST=mariadb3:3306
+      - WORDPRESS_DB_USER=$MARIADB_USER
+      - WORDPRESS_DB_PASSWORD=$MARIADB_PASSWORD
+      - WORDPRESS_DB_NAME=wordpress
+    volumes:
+      - /home/kwalker/curatorial:/var/www/html
+    networks:
+      - docker_app-network
+
+volumes:
+  docker_mariadb3_data:
+    external: true
+
+networks:
+  docker_app-network:
+    external: true
+

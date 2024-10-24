@@ -1,0 +1,89 @@
+#!/bin/bash
+# (c) Matt Bagley, under the GPL2
+# given log file(s), it will anonymize the logs and update (only if needed)
+
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin
+
+if [ "$1" == "" ] || [ "$1" == "-h" ] ; then
+        echo "Usage: $0 logfile.log [logfile2.log] [logfile3.log] ..."
+	exit 1
+fi
+
+td="$(mktemp -d)"
+temp_log=$td/file
+temp_log2=${temp_log}-pass2
+temp_log3=${temp_log}-pass3
+
+clean_up() {
+        rm -f $temp_log $temp_log2 $temp_log3
+        rmdir $td
+        exit
+}
+trap "clean_up"  1 2 3 4 5 15
+
+for each in $@ ; do
+        #echo Looking at $each
+        # does it exist?
+	if ! [ -f $each ] ; then
+	        echo "File not found: $each"
+		continue
+	fi
+	# non-zero?
+	if ! [ -s $each ] ; then
+	        continue
+	fi
+	# compressed or not?
+	compressed=0
+	if [ -n "$(echo $each | grep '.gz$')" ] ; then
+	        compressed=1
+	fi
+	# expand log
+	if [ $compressed -eq 1 ] ; then
+	        zcat $each > $temp_log
+	else
+	        cat $each > $temp_log
+	fi
+
+        # make sure that none of the lines start with '-'. ipv6loganon does not like this
+	# and that no lines have "::: " in them
+	cat $temp_log | sed 's/^- /0.0.0.0 /g' | sed 's/:::* /:: /g' > $temp_log2
+
+	# anonymize it (ipv6loganon only does files that have IP address first)
+        if [ -n "$(head -n 10 $temp_log2 | awk '{print $1}' | egrep '(\.|:)')" ] \
+        &&  [ -z "$(head -n 10 $temp_log2 | awk '{print $1}' | sed 's/[a-fA-F0-9\.:]*//g')" ] ; then
+#	        echo Running ipv6loganon on $each
+		cat $temp_log2 | ipv6loganon --anonymize-careful > $temp_log3
+		cat $temp_log3 > $temp_log2
+		rm -f $temp_log3
+	fi
+	cat $temp_log2 | sed 's/\([0-9]*\.[0-9]*\.[0-9]*\)\.[0-9]*/\1.0/g' \
+		| sed 's/\([0-9a-fA-F]*:[0-9a-fA-F]*:[0-9a-fA-F]*:\)[0-9a-fA-F:]*/\1:/g' \
+		| sed 's/:::*/::/g' > $temp_log3
+	cat $temp_log3 > $temp_log2
+	rm -f $temp_log3
+
+	# verify that it's not empty
+        if ! [ -s $temp_log2 ] ; then
+                echo "$each was processed as empty"
+		continue
+	fi
+	# diff to see if we changed anything
+        if [ -n "$(diff -q $temp_log $temp_log2)" ] ; then
+	        # if we did, zip and copy file back
+		temp_log_ext=""
+		if [ $compressed -eq 1 ] ; then
+		        gzip $temp_log2
+			temp_log_ext=.gz
+		fi
+		mv $each ${each}-old
+		echo Replacing $each
+		cat ${temp_log2}${temp_log_ext} > $each
+		# set the time to the same as the previous file
+		touch --reference=${each}-old $each
+		# clean up
+		rm -f ${each}-old ${temp_log2}${temp_log_ext}
+	fi
+	rm $temp_log $temp_log2 $temp_log3 -f
+done
+
+clean_up

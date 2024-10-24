@@ -1,0 +1,6 @@
+[submodule "yurisearch"]
+	path = yurisearch
+	url = git@github.com:postdigitalcultures/yurisearch.git
+[submodule "thepoliticalnatureofthebook"]
+	path = thepoliticalnatureofthebook
+	url = git@github.com:postdigitalcultures/thepoliticalnatureofthebook.git

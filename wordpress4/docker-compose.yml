@@ -1,0 +1,39 @@
+services:
+  # MariaDB database for WordPress w/ PHP7
+  # photomediations.postdigitalcultures.org
+  mariadb4:
+    image: mariadb
+    container_name: mariadb4
+    restart: unless-stopped
+    env_file: .env
+    volumes:
+      - mariadb4_data:/var/lib/mysql
+    networks:
+      - docker_app-network
+
+  # WordPress w/ PHP7
+  # photomediations.postdigitalcultures.org
+  wordpress4:
+    depends_on:
+      - mariadb4
+    image: wordpress:php7.4-fpm
+    container_name: wordpress4
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      - WORDPRESS_DB_HOST=mariadb4:3306
+      - WORDPRESS_DB_USER=$MARIADB_USER
+      - WORDPRESS_DB_PASSWORD=$MARIADB_PASSWORD
+      - WORDPRESS_DB_NAME=wordpress
+    volumes:
+      - ./wordpress-content:/var/www/html
+    networks:
+      - docker_app-network
+
+volumes:
+  mariadb4_data:
+
+networks:
+  docker_app-network:
+    external: true
+
