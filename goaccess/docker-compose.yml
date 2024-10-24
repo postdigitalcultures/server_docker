@@ -1,0 +1,23 @@
+services:
+  goaccess:
+    # build and Nginx config from https://github.com/icamys/docker-goaccess-nginx
+    build:
+       context: .
+       dockerfile: Dockerfile
+       args:
+          ALPINE_VERSION: 3.10.2
+    restart: unless-stopped
+    container_name: goaccess
+    expose:
+       - 7890
+    volumes:
+       - ./data:/srv/data
+       - ./data/database:/tmp
+       - ./html:/srv/report
+       - /home/cpc_admin/logs/wordpress:/var/log/nginx/
+    networks:
+       - docker_app-network
+
+networks:
+  docker_app-network:
+    external: true
