@@ -20,7 +20,5 @@ RUN cd /var/www/html/extensions/Widgets && composer update --no-dev
 
 RUN chown -R www-data:www-data /var/www/html/extensions/Widgets && chmod -R 775 /var/www/html/Widgets
 
-#RUN git clone https://github.com/SimonXIX/CategoryTranscluder /var/www/html/extensions/CategoryTranscluder
-
-COPY ./CategoryTranscluder /var/www/html/extensions/CategoryTranscluder
+RUN git clone https://github.com/SimonXIX/CategoryTranscluder /var/www/html/extensions/CategoryTranscluder
 
