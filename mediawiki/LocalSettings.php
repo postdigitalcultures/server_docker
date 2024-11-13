@@ -103,7 +103,7 @@ $wgUseInstantCommons = true;
 $wgPingback = true;
 
 # Site language code, should be one of the list in ./includes/languages/data/Names.php
-$wgLanguageCode = 'en-gb';
+$wgLanguageCode = 'en';
 
 # Time zone
 $wgLocaltimezone = 'UTC';
@@ -159,12 +159,12 @@ wfLoadExtension( 'EmbedVideo' );
 
 wfLoadExtension( 'CategoryTree' );
 
-wfLoadExtension( 'intersection' );
+#wfLoadExtension( 'intersection' );
 
 wfLoadExtension( 'Scribunto' );
 $wgScribuntoDefaultEngine = 'luastandalone';
 
-wfLoadExtension( 'DynamicPageListEngine' );
+#wfLoadExtension( 'DynamicPageListEngine' );
 
 wfLoadExtension( 'Interwiki' );
 // To grant sysops permissions to edit interwiki data
@@ -173,6 +173,8 @@ $wgGroupPermissions['sysop']['interwiki'] = true;
 wfLoadExtension( 'ExternalData' );
 
 wfLoadExtension( 'Widgets' );
+
+wfLoadExtension( 'CategoryTranscluder' );
 
 # End of automatically generated settings.
 # Add more configuration options below.
@@ -191,4 +193,6 @@ $wgFileExtensions[] = 'ogg';
 $wgMaxUploadSize = 209715200; //200 MB
 
 $wgEnableScaryTranscluding = true;
+$wgShowExceptionDetails = true;
+
 

@@ -7,7 +7,7 @@ services:
     restart: unless-stopped
     env_file: .env
     volumes:
-      - docker_mariadb3_data:/var/lib/mysql
+      - mariadb3_data:/var/lib/mysql
     networks:
       - docker_app-network
 
@@ -27,12 +27,12 @@ services:
       - WORDPRESS_DB_NAME=wordpress
     volumes:
       - /home/kwalker/curatorial:/var/www/html
+      - ./uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
     networks:
       - docker_app-network
 
 volumes:
-  docker_mariadb3_data:
-    external: true
+  mariadb3_data:
 
 networks:
   docker_app-network:

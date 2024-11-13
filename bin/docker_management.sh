@@ -12,7 +12,8 @@
 
 DOCKER="/usr/bin/docker"
 declare -a DOCKER_CONTAINERS=(
-	"bookstack" 
+	"bookstack"
+        "goaccess"	
 	"mediawiki" 
 	"workadventure/contrib/docker" 
 	"yurisearch/linqr"
