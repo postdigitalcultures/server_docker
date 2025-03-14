@@ -1,0 +1,45 @@
+services:
+  # MariaDB database for WordPress w/ PHP8
+  # tfgbv.postdigitalcultures.org
+  mariadb5:
+    image: mariadb
+    container_name: mariadb5
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      - MYSQL_ROOT_PASSWORD=$MARIADB_ROOT_PASSWORD
+      - MYSQL_DATABASE=wordpress
+      - MYSQL_USER=$MARIADB_USER
+      - MYSQL_PASSWORD=$MARIADB_PASSWORD
+    volumes:
+      - mariadb5_data:/var/lib/mysql
+    networks:
+      - docker_app-network
+
+  # WordPress w/ PHP8
+  # tfgbv.postdigitalcultures.org
+  wordpress5:
+    depends_on:
+      - mariadb5
+    image: wordpress:php8.0-fpm
+    container_name: wordpress5
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      - WORDPRESS_DB_HOST=mariadb5:3306
+      - WORDPRESS_DB_USER=$MARIADB_USER
+      - WORDPRESS_DB_PASSWORD=$MARIADB_PASSWORD
+      - WORDPRESS_DB_NAME=wordpress
+    volumes:
+      - ./wordpress-content:/var/www/html
+      - ./uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
+    networks:
+      - docker_app-network
+
+volumes:
+  mariadb5_data:
+
+networks:
+  docker_app-network:
+    external: true
+

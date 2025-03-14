@@ -20,6 +20,8 @@ wordpress2
 wordpress3/.env
 wordpress4/.env
 wordpress4/wordpress-content
+wordpress5/.env
+wordpress5/wordpress-content
 workadventure
 goaccess/data/access.conf
 goaccess/GeoLite2-City.mmdb
