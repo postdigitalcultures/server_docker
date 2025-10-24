@@ -130,17 +130,41 @@ WordPress dynamically rewrites permalinks using a function derived from https://
 
 ### WordPress
 
-Most sites on the server (postdigitalcultures.org, radicaloa.postdigitalcultures.org) are running on a WordPress Multisite installation in Docker Compose.
+Several sites on the server (postdigitalcultures.org, radicaloa.postdigitalcultures.org, radicaloaconference.postdigitalcultures.org, postpublishing.postdigitalcultures.org, postdigitalintimacies.postdigitalcultures.org) are running on a WordPress Multisite installation in Docker Compose.
 
 # Other sites
 
 The postdigitalcultures.org server also serves the following sites for staff and postgraduate research. All these sites are run through the NGINX running on Docker Compose with configuration files for each subdomain in /home/cpc_admin/docker/nginx-conf.
 
-- yurisearch.postdigitalcultures.org. This site was moved over from yurisearch.coventry.ac.uk and is the research output of former PhD student Jurij Smrke (uree@samponuniverzal.xyz). It lives in /home/cpc_admin/yurisearch and consists of two Docker Compose installations brought up in ./linqr and ./radovan. Linqr and Radovan are both available on Juirj's GitHub at https://github.com/uree/linqr and https://github.com/uree/radovan. This site is also backed up on GitHub at https://github.com/postdigitalcultures/yurisearch.
-
 - ai.postdigitalcultures.org. This site was set up by Kevin Walker for his research into AI in 2023. It is a HTML and JavaScript site served from /home/kwalker/ai_site. This folder is set up as an SFTP folder and Kevin manages all the files in there himself. 
 
-- networkednarratives.postdigitalcultures.org. This site was set up by Godswill Ezeonyeka (ezeonyekag@uni.coventry.ac.uk) and Abhiram Thiruthummal (thiruthuma@uni.coventry.ac.uk) as an interactive introduction to the story of the #EndSARS protests in Nigeria. It is a HTML and JavaScript site served from /home/gezeonyeka/networked_narratives.
+- bookstack.postdigitalcultures.org: BookStack software used by Ady Evans for Digital Safety-By-Design wiki
 
-- ghost.postdigitalcultures.org. This site was a test of Ghost, the open source alternative to Substack, and was set up by Simon Bowie. It's a Docker Compose application running from /home/cpc_admin/ghost. 
+- stats.postdigitalcultures.org: GoAccess site for web analytics for the main postdigitalcultures.org site
+
+- radicalcatalogue.postdigitalcultures.org: MediaWiki site for Eva Weinmayr's Teaching the Radical Catalogue project
+
+- storiesofendsars.postdigitalcultures.org. This site was set up by Godswill Ezeonyeka (ezeonyekag@uni.coventry.ac.uk) and Abhiram Thiruthummal (thiruthuma@uni.coventry.ac.uk) as an interactive introduction to the story of the #EndSARS protests in Nigeria. It is a HTML and JavaScript site served from /home/gezeonyeka/networked_narratives.
+
+- thepoliticalnatureofthebook.postdigitalcultures.org: website for The Political Nature of the Book book.
+
+- radicaloa.postdigitalcultures.org: WordPress website for the Radical Open Access Collective
+
+- postpublishing.postdigitalcultures.org: WordPress website for the Post-Publishing research theme
+
+- radicaloaconference.postdigitalcultures.org: WordPress website for the Radical Open Access Collective Conference 2015
+
+- postdigitalintimacies.postdigitalcultures.org: WordPress website for the Postdigital Intimacies and the Networked Public-Private research network
+
+- disruptingthehumanities.postdigitalcultures.org: WordPress website for Disrupting the Humanities
+
+- disruptedjournal.postdigitalcultures.org: WordPress website for the Disrupted Journal of Media Practice
+
+- curatorial-research.com: WordPress website for the Curatorial Research research group
+
+- photomediations.postdigitalcultures.org
+
+- tfgbv.postdigitalcultures.org: WordPress prototype website for TFGBV for Ady Evans and Lindsay Balfour
+
+- yurisearch.postdigitalcultures.org. This site was moved over from yurisearch.coventry.ac.uk and is the research output of former PhD student Jurij Smrke (uree@samponuniverzal.xyz). It lives in /home/cpc_admin/yurisearch and consists of two Docker Compose installations brought up in ./linqr and ./radovan. Linqr and Radovan are both available on Juirj's GitHub at https://github.com/uree/linqr and https://github.com/uree/radovan. This site is also backed up on GitHub at https://github.com/postdigitalcultures/yurisearch.
 
